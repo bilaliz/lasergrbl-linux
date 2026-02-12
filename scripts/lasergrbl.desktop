@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=LaserGRBL
+Comment=Laser optimized GUI for GRBL (Native Mono)
+Exec=lasergrbl
+Icon=/opt/lasergrbl/lasergrbl.png
+Categories=Graphics;Engineering;
+Terminal=false

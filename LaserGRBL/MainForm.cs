@@ -570,7 +570,7 @@ namespace LaserGRBL
 			if (stuck != IsBufferStuck)
 			{
 				IsBufferStuck = stuck;
-				PbBuffer.ProgressBar.SetState(stuck ? 2 : 1);
+				Tools.ModifyProgressBarColor.SetState(PbBuffer.ProgressBar, stuck ? 2 : 1);
 				BtnUnlockFromStuck.Enabled = stuck;
 			}
 

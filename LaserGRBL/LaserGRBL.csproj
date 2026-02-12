@@ -40,6 +40,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <LangVersion>Latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -1036,7 +1037,7 @@
     <Compile Include="UserControls\MyPictureBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="UserControls\MyPictureBox.designer.cs">
+    <Compile Include="UserControls\MyPictureBox.Designer.cs">
       <DependentUpon>MyPictureBox.cs</DependentUpon>
     </Compile>
     <Compile Include="UserControls\NumericInput\ColoredBorderControl.cs">

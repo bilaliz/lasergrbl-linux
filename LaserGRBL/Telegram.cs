@@ -17,9 +17,9 @@ namespace LaserGRBL
 		}
 		public static void NotifyEvent(string usercode, string message)
 		{
-			if (UrlManager.TelegramHandler is null)
+			if (UrlManager.TelegramHandler == null)
 				return;
-			if (UrlManager.TelegramServiceKey is null)
+			if (UrlManager.TelegramServiceKey == null)
 				return;
 			if (string.IsNullOrEmpty(usercode) || usercode.Trim().Length != 10)
 				return;
