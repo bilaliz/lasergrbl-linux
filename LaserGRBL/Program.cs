@@ -45,6 +45,13 @@ namespace LaserGRBL
 			System.Globalization.CultureInfo ci = Settings.GetObject<System.Globalization.CultureInfo>("User Language", null);
 			if (ci != null) Thread.CurrentThread.CurrentUICulture = ci;
 			Tools.TaskScheduler.SetClockResolution(1); //use a fast clock
+			
+			if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+			{
+				// Force GDI on Linux to avoid OpenGL/X11 crashes
+				if (Settings.ForcedGraphicMode == Settings.GraphicMode.AUTO)
+					Settings.ForcedGraphicMode = Settings.GraphicMode.GDI;
+			}
 
 			foreach (string s in args)
 			{

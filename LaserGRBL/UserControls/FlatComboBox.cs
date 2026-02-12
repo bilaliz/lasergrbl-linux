@@ -11,7 +11,7 @@ namespace LaserGRBL.UserControls
 
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == WM_PAINT && DropDownStyle != ComboBoxStyle.Simple)
+            if (Environment.OSVersion.Platform == PlatformID.Win32NT && m.Msg == WM_PAINT && DropDownStyle != ComboBoxStyle.Simple)
             {
                 var clientRect = ClientRectangle;
                 var dropDownButtonWidth = SystemInformation.HorizontalScrollBarArrowWidth;

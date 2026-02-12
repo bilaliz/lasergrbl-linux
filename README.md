@@ -28,6 +28,14 @@ This repository provides a **native Linux build** of [LaserGRBL](https://github.
    ```
 
 3. **Log out and log back in** for group permissions (serial port access) to take effect.
+4. Launch LaserGRBL from your application menu.
+
+## Installing on Another Machine
+To install LaserGRBL on a different computer:
+1. Copy the entire `lasergrbl-linux` folder to the target machine.
+2. Run `./install.sh` on the target machine.
+   - The script will automatically install necessary dependencies (`mono-complete`, `libgdiplus`).
+   - It will set up the launcher and desktop icons.
 
 ## Usage
 Launch LaserGRBL from your application menu or by typing `lasergrbl` in your terminal.

@@ -28,12 +28,20 @@ sudo chmod +x /usr/local/bin/lasergrbl
 sudo cp scripts/lasergrbl.desktop /usr/share/applications/
 
 # Permissions for serial port
-sudo usermod -aG dialout $USER
+if groups $USER | grep -q "\bdialout\b"; then
+    echo "User '$USER' is already in the 'dialout' group."
+    echo "--------------------------------------------------------"
+    echo "Installation complete!"
+    echo "You can launch LaserGRBL from your application menu or command line."
+else
+    sudo usermod -aG dialout $USER
+    echo "--------------------------------------------------------"
+    echo "Installation complete!"
+    echo "User '$USER' has been added to the 'dialout' group."
+    echo "Please LOG OUT AND LOG IN (or restart) to apply group changes."
+    echo "You can launch LaserGRBL from your application menu or command line."
+fi
 
-echo "--------------------------------------------------------"
-echo "Installation complete!"
-echo "Please LOG OUT AND LOG IN (or restart) to apply group changes."
-echo "You can launch LaserGRBL from your application menu or command line."
 echo "Note: If the application menu entry doesn't show up immediately,"
 echo "try running 'update-desktop-database ~/.local/share/applications/'. "
 echo "--------------------------------------------------------"

@@ -50,7 +50,10 @@ namespace LaserGRBL
 			};
 
 			MnOrtur.Visible = false;
-			MMn.Renderer = new MMnRenderer();
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+				MMn.Renderer = new MMnRenderer();
+			else
+				MMn.Renderer = new ToolStripSystemRenderer();
 
 			splitContainer1.FixedPanel = FixedPanel.Panel1;
 			splitContainer1.SplitterDistance = Settings.GetObject("MainForm Splitter Position", 260);
@@ -147,8 +150,26 @@ namespace LaserGRBL
 
 		private void RefreshColorSchema()
 		{
-			MMn.BackColor = BackColor = StatusBar.BackColor = ColorScheme.FormBackColor;
-			MMn.ForeColor = ForeColor = ColorScheme.FormForeColor;
+			if (Environment.OSVersion.Platform == PlatformID.Win32NT)
+			{
+				MMn.BackColor = BackColor = StatusBar.BackColor = ColorScheme.FormBackColor;
+				MMn.ForeColor = ForeColor = ColorScheme.FormForeColor;
+			}
+			else
+			{
+				// On Linux, respect system theme for MenuStrip (MMn) and Form
+				// But we still apply colors to StatusBar etc if needed, or just skip all to be safe?
+				// User explicitly said "text on the top menubar is not visible" and "follow device's default color scheme"
+				// So we skip MMn coloring. 
+				// The Form background might still be needed for other controls, but let's try leaving it default too if the user wants "device default".
+				// However, the user specifically mentioned "text on the top menubar".
+				// Let's set Form and StatusBar colors but SKIP MMn to let it be system default.
+				
+				BackColor = StatusBar.BackColor = ColorScheme.FormBackColor;
+				ForeColor = ColorScheme.FormForeColor;
+				
+				// MMn (MenuStrip) left untouched -> System default
+			}
 			List<ToolStripMenuItem> items = new List<ToolStripMenuItem>()
             {
                 cadStyleToolStripMenuItem,
@@ -1406,7 +1427,19 @@ namespace LaserGRBL
 		protected override void OnRenderItemText(ToolStripItemTextRenderEventArgs e)
 		{
 			Color c = e.Item.Enabled ? ColorScheme.FormForeColor : Color.Gray;
-			TextRenderer.DrawText(e.Graphics, e.Text, e.TextFont, e.TextRectangle, c, e.TextFormat);
+			
+			if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+			{
+				// Mono/Linux: TextRenderer can be buggy, use DrawString
+				using (Brush b = new SolidBrush(c))
+				{
+					e.Graphics.DrawString(e.Text, e.TextFont, b, e.TextRectangle);
+				}
+			}
+			else
+			{
+				TextRenderer.DrawText(e.Graphics, e.Text, e.TextFont, e.TextRectangle, c, e.TextFormat);
+			}
 		}
 
 		protected override void OnRenderToolStripBackground(ToolStripRenderEventArgs e)

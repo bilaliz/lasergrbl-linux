@@ -149,6 +149,8 @@ namespace LaserGRBL.UserControls
 
         public static void Initialize()
         {
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
+
             // check if os is at least vista
             if (Environment.OSVersion.Version.Major >= 6)
             {
@@ -177,6 +179,8 @@ namespace LaserGRBL.UserControls
 
         private static void SetTheme(Control control)
         {
+            if (Environment.OSVersion.Platform != PlatformID.Win32NT) return;
+
             // exit if not managed by os
             if (SetWindowTheme == null || DwmSetWindowAttribute == null) return;
             // set dark or light theme

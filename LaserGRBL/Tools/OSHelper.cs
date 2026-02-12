@@ -104,21 +104,22 @@ namespace Tools
 			{
 				get
 				{
-					SoftwareArchitecture pbits = SoftwareArchitecture.Unknown;
+					if (Environment.OSVersion.Platform != PlatformID.Win32NT)
+					{
+						return (IntPtr.Size == 8) ? SoftwareArchitecture.Bit64 : SoftwareArchitecture.Bit32;
+					}
 
+					SoftwareArchitecture pbits = SoftwareArchitecture.Unknown;
 					try
 					{
-
 						switch (IntPtr.Size * 8)
 						{
 							case 64:
 								pbits = SoftwareArchitecture.Bit64;
 								break;
-
 							case 32:
 								pbits = SoftwareArchitecture.Bit32;
 								break;
-
 							default:
 								pbits = SoftwareArchitecture.Unknown;
 								break;
@@ -133,6 +134,8 @@ namespace Tools
 			{
 				get
 				{
+					if (Environment.OSVersion.Platform != PlatformID.Win32NT) return SoftwareArchitecture.Unknown;
+
 					SoftwareArchitecture osbits = SoftwareArchitecture.Unknown;
 					try
 					{
@@ -167,6 +170,8 @@ namespace Tools
 			{
 				get
 				{
+					if (Environment.OSVersion.Platform != PlatformID.Win32NT) return ProcessorArchitecture.Unknown;
+
 					ProcessorArchitecture pbits = ProcessorArchitecture.Unknown;
 
 					try
@@ -205,8 +210,8 @@ namespace Tools
 			{
 				get
 				{
-					if (s_Edition != null)
-						return s_Edition;  //***** RETURN *****//
+					if (s_Edition != null) return s_Edition;
+					if (Environment.OSVersion.Platform != PlatformID.Win32NT) return "Linux";
 
 					try
 					{
@@ -344,8 +349,9 @@ namespace Tools
 			{
 				get
 				{
-					if (s_Name != null)
-						return s_Name;  //***** RETURN *****//
+					if (s_Name != null) return s_Name;
+					if (Environment.OSVersion.Platform != PlatformID.Win32NT) return "Linux";
+
 					try
 					{
 						string name = "unknown";
@@ -535,6 +541,7 @@ namespace Tools
 
 			public static bool IsWindows11()
 			{
+				if (Environment.OSVersion.Platform != PlatformID.Win32NT) return false;
 				try
 				{
 					string currentBuildStr = RegistryRead(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentBuild", "");
@@ -765,6 +772,7 @@ namespace Tools
 			{
 				get
 				{
+					if (Environment.OSVersion.Platform != PlatformID.Win32NT) return "";
 					try
 					{
 						string servicePack = String.Empty;
@@ -793,6 +801,7 @@ namespace Tools
 			{
 				get
 				{
+					if (Environment.OSVersion.Platform != PlatformID.Win32NT) return 0;
 					return int.Parse(RegistryRead(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion", "CurrentBuildNumber", "0"));
 				}
 			}
